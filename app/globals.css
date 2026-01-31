@@ -1,26 +1,395 @@
+/* app/globals.css */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ベース設定 (Reset & Fonts) */
+*, ::before, ::after {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  scroll-behavior: smooth;
+  line-height: 1.15;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* フォントは layout.tsx で管理するのでここでは指定しなくてOKですが、念のため残します */
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 1.6rem;
+  color: #333;
+  letter-spacing: 0.04em;
+  background-color: #f1f1f1;
+  background-image: radial-gradient(#ccc 1px, transparent 1px);
+  background-size: 20px 20px;
+  overflow-x: hidden;
+}
+
+/* アニメーション用クラス */
+.js-fade-target, .js-bounce-target {
+  opacity: 0;
+  transition: all 1s ease;
+}
+.is-show {
+  opacity: 1 !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+/* Header */
+.header {
+  position: fixed;
+  z-index: 1000;
+  width: 100%;
+  background: #fff;
+  border-bottom: 1px solid #333;
+  padding: 10px 0;
+  top: 0;
+}
+.header__text-wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+}
+.header__text-box {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 20s linear infinite;
+}
+.header__text-box--item {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-right: 50px;
+}
+@keyframes marquee {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-100%, 0); }
+}
+
+/* Main Visual (MV) */
+.mv {
+  height: 800px;
+  padding-top: 140px;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+}
+.mv__container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
+}
+.mv__text-box {
+  width: 50%;
+  transform: translateY(20px);
+}
+.mv__text-box--attr {
+  display: inline-block;
+  background: #fff;
+  border: 1px solid #333;
+  padding: 5px 15px;
+  border-radius: 50px;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+}
+.mv__text-box--name {
+  border-bottom: 1px solid #333;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+}
+.mv__text-box--name .jp {
+  font-size: 4rem;
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+.mv__text-box--name .en {
+  font-size: 1.4rem;
+  color: #888;
+  letter-spacing: 0.1em;
+}
+
+/* Menu List */
+.mv__menu-list {
+  list-style: none;
+}
+.mv__menu-list--item a {
+  display: flex;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid #333;
+  text-decoration: none;
+  color: #333;
+  position: relative;
+  transition: background 0.3s;
+}
+.mv__menu-list--item a:hover {
+  background: rgba(255,255,255,0.5);
+}
+.mv__menu-list--item .num {
+  margin-right: 20px;
+  font-weight: bold;
+}
+.mv__menu-list--item .text_box .en {
+  font-size: 1rem;
+  color: #888;
+  text-transform: uppercase;
+}
+.mv__menu-list--item .text_box .jp .main {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+.mv__menu-list--item .text_box .jp .sub {
+  display: none;
+}
+.arrow {
+  margin-left: auto;
+  width: 20px; height: 20px;
+  border: 1px solid #333;
+  border-radius: 50%;
+  position: relative;
+}
+.arrow::after {
+  content: "▼";
+  font-size: 8px;
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mv__img-box {
+  width: 45%;
+  transform: scale(0.9);
+}
+
+/* Content Box */
+.box-content {
+  background: #fff;
+  position: relative;
+  z-index: 10;
+  margin-top: -100px;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
+  padding-top: 80px;
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+}
+
+.c-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Heading Style */
+.c-heading {
+  display: flex;
+  align-items: baseline;
+  margin-bottom: 60px;
+  gap: 15px;
+}
+.c-heading .num {
+  font-size: 3rem;
+  color: #AC9ED6;
+}
+.c-heading .jp {
+  font-size: 2.4rem;
+  font-weight: 500;
+}
+.c-heading .en {
+  font-size: 1.4rem;
+  color: #888;
+}
+
+/* 01. About */
+.about {
+  padding-bottom: 100px;
+}
+.about__attr-list {
+  margin-bottom: 50px;
+}
+.about__attr-list--item {
+  display: flex;
+  padding: 15px 0;
+  border-bottom: 1px solid #eee;
+}
+.about__attr-list--item .title {
+  width: 100px;
+  font-weight: bold;
+}
+
+.about__life-box {
+  overflow-x: auto;
+  padding: 30px;
+  border: 1px solid #333;
+  border-radius: 8px;
+}
+.about__life-text-container {
+  display: flex;
+  gap: 40px;
+  list-style: none;
+  position: relative;
+}
+.about__life-text-container::before {
+  content: "";
+  position: absolute;
+  top: 28px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #333;
+  z-index: 0;
+}
+
+.about__life-text-box--text {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.about__life-text-box--text .era {
+  background: #fff;
+  border: 1px solid #333;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-bottom: 15px;
+  display: inline-block;
+  font-weight: bold;
+}
+.about__life-text-box--text .content {
+  writing-mode: vertical-rl;
+  font-size: 1.6rem;
+  letter-spacing: 0.1em;
+  height: 150px;
+}
+
+/* 02. Research */
+.favorite {
+  background: #c0dce8;
+  padding: 100px 0;
+  margin-bottom: 0;
+}
+.favorite .c-heading .num, 
+.favorite .c-heading .jp, 
+.favorite .c-heading .en {
+  color: #fff;
+}
+
+/* 03. Skills */
+.dream {
+  padding: 100px 0;
+  background: #fff;
+}
+.dream__accordion-container {
+  list-style: none;
+}
+.dream__accordion-box {
+  margin-bottom: 15px;
+}
+
+/* Accordion */
+.dream__accordion-item--question {
+  width: 100%;
+  text-align: left;
+  background: #fff;
+  border: 1px solid #333;
+  padding: 20px;
+  font-size: 1.6rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s;
+  display: block;
+}
+.dream__accordion-item--question:hover {
+  background: #f9f9f9;
+}
+
+.dream__accordion-item--answer {
+  height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+  background: #fefbf0;
+  margin-top: -1px;
+  border-radius: 0 0 4px 4px;
+}
+.dream__accordion-item--answer.is-open {
+  height: auto;
+  opacity: 1;
+  padding: 20px;
+  border: 1px solid #333;
+  border-top: none;
+}
+.dream__accordion-item--answer .title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #4e9d96;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  background: #333;
+  color: #fff;
+}
+
+/* =========================================
+   04. Blog Section
+   ========================================= */
+   
+.blog {
+  padding: 100px 0;
+  background: #f1f1f1; /* 背景はベース色と同じ */
+}
+
+/* 記事カードのグリッドレイアウト */
+.blog__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+}
+
+/* 記事カードのデザイン */
+.blog__card {
+  background: #fff;
+  border: 1px solid #333;
+  border-radius: 8px;
+  padding: 24px;
+  transition: all 0.3s ease;
+  display: block; /* Linkタグ用 */
+  text-decoration: none;
+  color: #333;
+  position: relative;
+  top: 0;
+}
+
+/* ホバー時に少し浮く */
+.blog__card:hover {
+  top: -5px;
+  box-shadow: 5px 5px 0px rgba(0,0,0,1); /* ポップな影 */
+  border-color: #000;
+}
+
+.blog__card--date {
+  font-size: 1.2rem;
+  color: #888;
+  margin-bottom: 10px;
+  display: inline-block;
+  background: #eee;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.blog__card--title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.blog__card--arrow {
+  text-align: right;
+  font-size: 1.4rem;
+  color: #AC9ED6; /* テーマカラー紫 */
+  font-weight: bold;
 }
