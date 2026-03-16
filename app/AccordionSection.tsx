@@ -7,13 +7,18 @@ export default function AccordionSection() {
     <ul className="dream__accordion-container js-fade-target">
       <AccordionItem
         question="プログラミング・技術スキルは？"
-        title="Python / C++ / Data Science"
-        content="研究活動ではPythonを用いたデータ解析や可視化を行っています。C++を用いた開発経験もあり、論理的なアルゴリズム構築が得意です。現在はクラウド技術（AWS）やDXコンサルティング領域にも学習範囲を広げています。"
+        title="Python / C++ / Data Analysis"
+        content="研究活動では Python を使った解析、可視化、実験ログ整理を日常的に行っています。C++ では基礎的なアルゴリズム実装を経験し、処理の安定性や読みやすさを重視して開発しています。"
       />
       <AccordionItem
-        question="趣味について"
-        title="Poker Strategy"
-        content="趣味はポーカーです。大会に出場するほど熱中しており、不完全情報ゲームにおける確率論と心理戦の駆け引きを楽しんでいます。この「限られた情報から最適解を導く」プロセスは、研究やビジネスにも通じると感じています。"
+        question="研究の進め方は？"
+        title="Hypothesis → Simulation → Validation"
+        content="まず仮説を立て、流体解析や小スケール実験で早く検証し、得られた結果をもとに次の設計に反映します。完璧さよりも検証速度を重視し、短いサイクルで改善することを意識しています。"
+      />
+      <AccordionItem
+        question="趣味・関心領域について"
+        title="Poker / English Learning / AI"
+        content="趣味はポーカーで、確率思考と意思決定のトレーニングとして楽しんでいます。英語学習にも継続的に取り組んでおり、最近は AI 活用による予測モデルづくりや情報整理にも関心があります。"
       />
     </ul>
   );
@@ -30,6 +35,7 @@ function AccordionItem({
   content: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const answerId = `answer-${question}`;
 
   return (
     <li className="dream__accordion-box">
@@ -37,10 +43,13 @@ function AccordionItem({
         <button
           className="dream__accordion-item--question"
           onClick={() => setIsOpen(!isOpen)}
+          aria-expanded={isOpen}
+          aria-controls={answerId}
         >
-          {question}
+          {question} {isOpen ? "−" : "+"}
         </button>
         <div
+          id={answerId}
           className={`dream__accordion-item--answer ${isOpen ? "is-open" : ""}`}
         >
           <div className="answer-inner">

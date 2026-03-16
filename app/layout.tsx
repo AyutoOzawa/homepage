@@ -10,8 +10,8 @@ const zenFont = Zen_Kaku_Gothic_New({
 });
 
 export const metadata: Metadata = {
-  title: "Ayu's Portfolio",
-  description: "Ayuto Ozawa Portfolio Site",
+  title: "Ayuto Ozawa | Portfolio",
+  description: "再生工学・バイオリアクタ・流体解析に取り組む Ayuto Ozawa のポートフォリオサイト",
 };
 
 export default function RootLayout({
